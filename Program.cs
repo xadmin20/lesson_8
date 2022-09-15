@@ -1,40 +1,46 @@
-﻿// Задача 58: Задайте две матрицы. Напишите программу, которая будет находить произведение двух матриц.
-Console.WriteLine("Введите количество строк 1-ой матрицы: "); int m = Convert.ToInt32(Console.ReadLine());
-Console.WriteLine("Введите количество столбцов 1-ой и количество строк 2-ой: "); int n = Convert.ToInt32(Console.ReadLine());
-Console.WriteLine("Введите количество столбцов 2-ой матрицы: "); int p = Convert.ToInt32(Console.ReadLine());
-int[,] firstMartrix = new int[m, n];
-CreateArray(firstMartrix); Console.WriteLine($"Первая матрица:");
-WriteArray(firstMartrix);
-int[,] secomdMartrix = new int[n, p];
-CreateArray(secomdMartrix); Console.WriteLine($"Вторая матрица:");
-WriteArray(secomdMartrix);
-int[,] arrMatrix = new int[m,p];
-MultiplyMatrix(firstMartrix, secomdMartrix, arrMatrix); Console.WriteLine($"Произведение матриц:");
-WriteArray(arrMatrix);
-void MultiplyMatrix(int[,] firstMartrix, int[,] secomdMartrix, int[,] resultMatrix)
+﻿// Задача 60: Сформируйте трёхмерный массив из неповторяющихся двузначных чисел. Напишите программу, которая будет построчно выводить массив, добавляя индексы каждого элемента.
+Console.WriteLine("Введите размер массива x: "); int x = Convert.ToInt32(Console.ReadLine());
+Console.WriteLine("Введите размер массива y: "); int y = Convert.ToInt32(Console.ReadLine());
+Console.WriteLine("Введите размер массива z: "); int z = Convert.ToInt32(Console.ReadLine());
+int[,,] arr = new int[x, y, z];
+CreateArray(arr);
+WriteArray(arr);
+void WriteArray (int[,,] arr)
 {
-  for (int i = 0; i < resultMatrix.GetLength(0); i++)
+  for (int i = 0; i < arr.GetLength(0); i++)
   {
-    for (int j = 0; j < resultMatrix.GetLength(1); j++)
+    for (int j = 0; j < arr.GetLength(1); j++)
     {
-      int sum = 0;
-      for (int k = 0; k < firstMartrix.GetLength(1); k++) sum += firstMartrix[i,k] * secomdMartrix[k,j];
-      resultMatrix[i,j] = sum;
+      for (int k = 0; k < arr.GetLength(2); k++) Console.Write( $"{arr[i,j,k]}({j}, {k}, {i}) ");
+      Console.WriteLine();
     }
   }
 }
-void CreateArray(int[,] array)
+void CreateArray(int[,,] arr)
 {
-  for (int i = 0; i < array.GetLength(0); i++)
+  int[] temp = new int[arr.GetLength(0) * arr.GetLength(1) * arr.GetLength(2)];
+  int  number;
+  for (int i = 0; i < temp.GetLength(0); i++)
   {
-    for (int j = 0; j < array.GetLength(1); j++) array[i, j] = new Random().Next(10);
+    temp[i] = new Random().Next(10, 100); number = temp[i];
+    if (i >= 1)
+    {
+      for (int j = 0; j < i; j++)
+      {
+        while (temp[i] == temp[j])
+        {
+          temp[i] = new Random().Next(10, 100); j = 0; number = temp[i];
+        }
+          number = temp[i];
+      }
+    }
   }
-}
-void WriteArray (int[,] array)
-{
-  for (int i = 0; i < array.GetLength(0); i++)
+  int count = 0; 
+  for (int x = 0; x < arr.GetLength(0); x++)
   {
-    for (int j = 0; j < array.GetLength(1); j++) Console.Write(array[i,j] + " ");
-    Console.WriteLine();
+    for (int y = 0; y < arr.GetLength(1); y++)
+    {
+      for (int z = 0; z < arr.GetLength(2); z++) arr[x, y, z] = temp[count]; count++;
+    }
   }
 }
